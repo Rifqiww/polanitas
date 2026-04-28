@@ -14,15 +14,20 @@ import type { NextRequest } from "next/server";
 
 const SESSION_COOKIE = "__session";
 
-const PUBLIC_PATHS = ["/", "/login", "/register"];
+const PUBLIC_PATHS = ["/", "/login", "/register", "/setup-profile"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const session = request.cookies.get(SESSION_COOKIE)?.value;
 
-  // Already authenticated → redirect away from auth pages
+  // Already authenticated → redirect away from auth pages (but NOT setup-profile)
   if (session && (pathname === "/login" || pathname === "/register")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  // /setup-profile requires a session but is not /dashboard
+  if (pathname === "/setup-profile" && !session) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   // Protected routes → require session

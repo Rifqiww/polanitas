@@ -79,8 +79,8 @@ const FEATURES = [
   {
     Icon: Eye,
     title: "The Analyst",
-    desc: "Evaluasi psikologi visual audiens menggunakan teknologi pelacakan mata presisi.",
-    tag: "Visual Psych",
+    desc: "Analisis komprehensif dari hasil data 2 agen sebelumnya, dipadukan dengan evaluasi heatmap visual.",
+    tag: "Data & Visual",
     color: "#22C55E",
   },
 ];
@@ -103,7 +103,7 @@ export default function LandingClient() {
           <ThemeToggle />
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
             <Link
-              href="/dashboard"
+              href="/login"
               className="btn btn-primary btn-sm rounded-full px-4 py-2 font-semibold"
             >
               Masuk <ArrowRight size={14} strokeWidth={2.5} />
@@ -120,14 +120,6 @@ export default function LandingClient() {
           variants={staggerContainer}
           className="max-w-[900px] text-center px-6 flex flex-col items-center gap-7"
         >
-          {/* Badge */}
-          <motion.div
-            variants={scaleIn}
-            className="py-1.5 px-3.5 rounded-full border border-border bg-surface-2 text-secondary text-[0.85rem] font-medium flex items-center gap-2 shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
-          >
-            <span className="block w-2 h-2 rounded-full bg-accent-text animate-[pulse_2s_infinite]" />
-            Simulasi Edukasi Live
-          </motion.div>
 
           {/* Title */}
           <motion.h1
@@ -139,8 +131,8 @@ export default function LandingClient() {
             <br />
             <motion.span
               className="glow-text italic font-extrabold inline-block"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               Kecerdasan Buatan.
@@ -153,15 +145,14 @@ export default function LandingClient() {
             custom={2}
             className="max-w-[640px] text-lg text-secondary leading-[1.6]"
           >
-            Kuasai seni dan sains dari analitik media modern. Praktikkan strategi pemasaran
-            visual melalui simulasi komprehensif bersama AI Agen & Eye Tracking. Minimalis, elegan, dan penuh data.
+            POLANITAS adalah platform edukasi inovatif dan AI Agent untuk Data Analyst. Belajar dan praktik analisis data, riset tren, serta strategi konten menggunakan ekosistem 3 AI Agent spesialis yang terintegrasi.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div variants={fadeUp} custom={3} className="flex gap-4 mt-3 flex-wrap justify-center">
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
               <Link
-                href="/dashboard"
+                href="/register"
                 className="btn btn-primary btn-lg rounded-md px-8 h-[52px] text-base"
               >
                 Coba Eksplorasi
@@ -220,8 +211,8 @@ export default function LandingClient() {
           className="mt-[60px] md:mt-[100px] w-full max-w-[850px] text-center py-[80px] px-6 relative z-10"
         >
           {/* Glowing subtle background */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-accent-subtle)_0%,transparent_50%)] opacity-50 blur-[50px] -z-10 pointer-events-none" />
-          
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-accent-subtle)_0%,transparent_50%)] opacity-30 blur-xl -z-10 pointer-events-none" />
+
           {/* Animated top/bottom borders */}
           <motion.div
             variants={widthExpand}
@@ -234,11 +225,11 @@ export default function LandingClient() {
 
           <motion.div variants={fadeUp} custom={0}>
             <div className="w-20 h-20 mx-auto mb-8 rounded-[24px] bg-surface backdrop-blur-md border border-[var(--color-border)] shadow-[0_20px_40px_-15px_var(--color-accent-glow)] flex items-center justify-center text-[var(--color-accent-text)] relative overflow-hidden group">
-               <div className="absolute inset-0 bg-[var(--color-accent-glow)] opacity-[0.15] group-hover:opacity-[0.25] transition-opacity duration-500" />
-               <TrendingUp size={36} strokeWidth={2} className="relative z-10 transition-transform duration-500 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-[var(--color-accent-glow)] opacity-[0.15] group-hover:opacity-[0.25] transition-opacity duration-500" />
+              <TrendingUp size={36} strokeWidth={2} className="relative z-10 transition-transform duration-500 group-hover:scale-110" />
             </div>
           </motion.div>
-          
+
           <motion.h2
             variants={fadeUp}
             custom={1}
@@ -246,15 +237,78 @@ export default function LandingClient() {
           >
             Paradigma Baru Analitik Konten
           </motion.h2>
-          
+
           <motion.p
             variants={fadeUp}
             custom={2}
             className="text-secondary text-[1.125rem] leading-[1.75] max-w-[700px] mx-auto opacity-90"
           >
-            Desain elegan bukanlah sekadar estetika, melainkan kejernihan dalam membaca data.
-            POLANITAS mengubah kerumitan algoritma menjadi antarmuka yang bersih, intuitif, dan semi-modern.
+            Sebagai platform edukasi dan eksekusi, POLANITAS menghadirkan 3 agen AI spesialis (Researcher, Strategist, dan Analyst) yang bekerja secara berkesinambungan untuk memberikan wawasan analitik mendalam dengan antarmuka yang bersih dan intuitif.
           </motion.p>
+        </motion.section>
+
+        {/* ── Workflow Ecosystem Section ────────────────────────── */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+          className="mt-[40px] md:mt-[80px] w-full max-w-[1100px] px-6 relative z-10 flex flex-col items-center"
+        >
+          <motion.div variants={fadeUp} className="text-center mb-16">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full border border-[var(--color-accent-text)] bg-[var(--color-accent-glow)]/10 text-[var(--color-accent-text)] text-xs font-bold uppercase tracking-wider">
+              Praktik Nyata Data Analyst
+            </div>
+            <h3 className="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-primary mb-4">Sistem Edukasi Terpadu</h3>
+            <p className="text-secondary max-w-[650px] mx-auto leading-relaxed text-lg">
+              Pelajari alur kerja profesional seorang Data Analyst dengan mempraktikkan langsung delegasi tugas secara berurutan kepada ekosistem 3 AI cerdas kami.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 relative w-full">
+            {/* Connecting line for desktop */}
+            <div className="hidden md:block absolute top-[50px] left-[15%] right-[15%] h-[2px] bg-border z-0 overflow-hidden">
+              <motion.div
+                initial={{ x: "-100%" }}
+                whileInView={{ x: "100%" }}
+                transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                className="w-full h-full bg-[linear-gradient(90deg,transparent,var(--color-accent-text),transparent)] opacity-50"
+              />
+            </div>
+
+            {/* Step 1 */}
+            <motion.div variants={fadeUp} className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-[100px] h-[100px] rounded-2xl bg-surface border border-border shadow-lg flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[#3B82F6] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+                <Search size={40} className="text-[#3B82F6]" />
+                <div className="absolute top-2 right-2 w-6 h-6 rounded-md bg-[#3B82F6]/10 text-[#3B82F6] text-xs font-bold flex items-center justify-center">1</div>
+              </div>
+              <h4 className="text-xl font-semibold text-primary mb-3">Riset Data (Researcher)</h4>
+              <p className="text-[0.95rem] text-secondary leading-relaxed px-4">Belajar mengekstraksi insight dari data mentah, tren pasar, dan mengidentifikasi peluang secara real-time.</p>
+            </motion.div>
+
+            {/* Step 2 */}
+            <motion.div variants={fadeUp} className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-[100px] h-[100px] rounded-2xl bg-surface border border-border shadow-lg flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[#8B5CF6] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+                <Brain size={40} className="text-[#8B5CF6]" />
+                <div className="absolute top-2 right-2 w-6 h-6 rounded-md bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs font-bold flex items-center justify-center">2</div>
+              </div>
+              <h4 className="text-xl font-semibold text-primary mb-3">Formulasi Strategi (Strategist)</h4>
+              <p className="text-[0.95rem] text-secondary leading-relaxed px-4">Gunakan data dari Researcher untuk merancang angle promosi, copywriting, dan kerangka kampanye.</p>
+            </motion.div>
+
+            {/* Step 3 */}
+            <motion.div variants={fadeUp} className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-[100px] h-[100px] rounded-2xl bg-surface border border-border shadow-lg flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[#22C55E] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+                <Eye size={40} className="text-[#22C55E]" />
+                <div className="absolute top-2 right-2 w-6 h-6 rounded-md bg-[#22C55E]/10 text-[#22C55E] text-xs font-bold flex items-center justify-center">3</div>
+              </div>
+              <h4 className="text-xl font-semibold text-primary mb-3">Sintesis & Analisis (Analyst)</h4>
+              <p className="text-[0.95rem] text-secondary leading-relaxed px-4">Menganalisis hasil data dari 2 agen sebelumnya secara holistik dan melakukan evaluasi menggunakan simulasi heatmap visual.</p>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
 

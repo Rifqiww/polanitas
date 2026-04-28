@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/firebase-client";
 import { createSession } from "@/actions/auth-actions";
+import { isProfileCompleted } from "@/hooks/use-accessibility";
 import { Mail, Lock, LogIn, AlertCircle, Globe } from "lucide-react";
 import { ThemeLogo } from "@/components/layout/ThemeLogo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,7 +39,8 @@ export default function LoginForm() {
         const cred = await signInWithEmailAndPassword(auth, email, password);
         const result = await createSession(cred.user.uid);
         if (result?.error) throw new Error(result.error);
-        router.push(redirectTo);
+        const profileDone = await isProfileCompleted(cred.user.uid);
+        router.push(profileDone ? redirectTo : "/setup-profile");
         router.refresh();
       } catch (err: any) {
         setError(friendlyError(err.code ?? err.message));
@@ -54,7 +56,8 @@ export default function LoginForm() {
       const cred = await signInWithPopup(auth, googleProvider);
       const result = await createSession(cred.user.uid);
       if (result?.error) throw new Error(result.error);
-      router.push(redirectTo);
+      const profileDone = await isProfileCompleted(cred.user.uid);
+      router.push(profileDone ? redirectTo : "/setup-profile");
       router.refresh();
     } catch (err: any) {
       if (err.code !== "auth/popup-closed-by-user") {
@@ -68,7 +71,7 @@ export default function LoginForm() {
   const loading = isPending || isGooglePending;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -77,7 +80,7 @@ export default function LoginForm() {
       <div className="bg-surface p-8 rounded-3xl border border-border shadow-md">
         {/* Header */}
         <div className="text-center mb-7">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -85,7 +88,7 @@ export default function LoginForm() {
           >
             <ThemeLogo height={32} />
           </motion.div>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -93,7 +96,7 @@ export default function LoginForm() {
           >
             Masuk ke Akun
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -112,7 +115,7 @@ export default function LoginForm() {
         {/* Error */}
         <AnimatePresence mode="wait">
           {error && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0, marginBottom: 0 }}
               animate={{ opacity: 1, height: "auto", marginBottom: 20 }}
               exit={{ opacity: 0, height: 0, marginBottom: 0 }}
@@ -196,7 +199,7 @@ export default function LoginForm() {
             disabled={loading}
           >
             {loading ? (
-              <motion.div 
+              <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               >
@@ -210,7 +213,7 @@ export default function LoginForm() {
         </form>
 
         {/* Divider */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
@@ -246,13 +249,13 @@ export default function LoginForm() {
 // Map Firebase error codes to user-friendly Indonesian messages
 function friendlyError(code: string): string {
   const map: Record<string, string> = {
-    "auth/user-not-found":       "Email tidak terdaftar. Coba daftar terlebih dahulu.",
-    "auth/wrong-password":       "Password salah. Silakan coba lagi.",
-    "auth/invalid-credential":   "Email atau password salah.",
-    "auth/invalid-email":        "Format email tidak valid.",
-    "auth/too-many-requests":    "Terlalu banyak percobaan. Coba beberapa menit lagi.",
+    "auth/user-not-found": "Email tidak terdaftar. Coba daftar terlebih dahulu.",
+    "auth/wrong-password": "Password salah. Silakan coba lagi.",
+    "auth/invalid-credential": "Email atau password salah.",
+    "auth/invalid-email": "Format email tidak valid.",
+    "auth/too-many-requests": "Terlalu banyak percobaan. Coba beberapa menit lagi.",
     "auth/network-request-failed": "Koneksi gagal. Periksa jaringan kamu.",
-    "auth/user-disabled":        "Akun ini telah dinonaktifkan.",
+    "auth/user-disabled": "Akun ini telah dinonaktifkan.",
   };
   return map[code] ?? `Terjadi kesalahan: ${code}`;
 }

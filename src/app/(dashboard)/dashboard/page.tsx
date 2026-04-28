@@ -154,7 +154,8 @@ export default function DashboardPage() {
 
   const displayName = user?.displayName || user?.email?.split("@")[0] || "Pengguna";
   const firstName = displayName.split(" ")[0];
-  const avatarUrl = user?.photoURL || `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(firstName)}`;
+  const defaultAvatar = firstName.length % 2 === 0 ? "/profile/boy.svg" : "/profile/girl.svg";
+  const avatarUrl = user?.photoURL || defaultAvatar;
 
   const filtered = COURSES.filter((c) => {
     const matchFilter = activeFilter === "Semua" || c.tag === activeFilter || c.level === activeFilter;

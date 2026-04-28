@@ -1,0 +1,108 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper Functions ───────────────────────────────────────────────────────
+
+    /** Returns true if the request comes from an authenticated user. */
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    /** Returns true if the authenticated user's UID matches the given uid. */
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    /** Validates that incoming data only contains allowed fields (no extra fields injected). */
+    function hasOnly(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+
+    // ── /users/{uid} ──────────────────────────────────────────────────────────
+    //
+    // Stores the user's profile, accessibility prefs, and platform selections.
+    // Only the owner can read and write their own document.
+    //
+    match /users/{uid} {
+      allow read:   if isOwner(uid);
+      allow create: if isOwner(uid)
+                    && hasOnly([
+                         'name', 'age', 'gender', 'platforms',
+                         'accessibility', 'profileCompleted'
+                       ]);
+      allow update: if isOwner(uid)
+                    && hasOnly([
+                         'name', 'age', 'gender', 'platforms',
+                         'accessibility', 'profileCompleted'
+                       ]);
+      allow delete: if false; // Never allow client-side deletion of profiles
+    }
+
+
+    // ── /sessions/{sessionId} ─────────────────────────────────────────────────
+    //
+    // Each session belongs to a specific user (stored in session.userId).
+    // - Read/List: only the owner (userId field must match auth.uid).
+    // - Create: only authenticated users; userId must match their own UID.
+    // - Update: only the owner; cannot change the userId or createdAt field.
+    // - Delete: not allowed from the client.
+    //
+    match /sessions/{sessionId} {
+      allow read:   if isAuth() && resource.data.userId == request.auth.uid;
+      allow list:   if isAuth();  // query is filtered by where("userId", "==", uid) on client
+      allow create: if isAuth()
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.keys().hasAll(['userId', 'topic', 'createdAt']);
+      allow update: if isAuth()
+                    && resource.data.userId == request.auth.uid
+                    // Prevent ownership transfer
+                    && request.resource.data.userId == resource.data.userId
+                    && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
+
+
+      // ── /sessions/{sessionId}/research/output ──────────────────────────────
+      //
+      // Researcher agent output. Written by server actions / AI agents.
+      // Client can only read if they own the parent session.
+      //
+      match /research/output {
+        allow read:   if isAuth() && get(/databases/$(database)/documents/sessions/$(sessionId)).data.userId == request.auth.uid;
+        allow write:  if false; // Server-side only (written via Admin SDK / Server Action)
+      }
+
+
+      // ── /sessions/{sessionId}/strategy/output ─────────────────────────────
+      //
+      // Strategist agent output. Same rules as research output.
+      //
+      match /strategy/output {
+        allow read:   if isAuth() && get(/databases/$(database)/documents/sessions/$(sessionId)).data.userId == request.auth.uid;
+        allow write:  if false; // Server-side only
+      }
+
+
+      // ── /sessions/{sessionId}/analytics/{docId} ───────────────────────────
+      //
+      // Eye-tracking / heatmap analytics reports. Multiple documents per session.
+      // Clients can read and CREATE their own analytics (eye-tracking data sent from browser).
+      // Update/delete is not allowed from the client.
+      //
+      match /analytics/{reportId} {
+        allow read:   if isAuth() && get(/databases/$(database)/documents/sessions/$(sessionId)).data.userId == request.auth.uid;
+        allow create: if isAuth() && get(/databases/$(database)/documents/sessions/$(sessionId)).data.userId == request.auth.uid;
+        allow update: if false;
+        allow delete: if false;
+      }
+    }
+
+
+    // ── Fallback: deny everything else ────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

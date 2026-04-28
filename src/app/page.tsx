@@ -4,7 +4,7 @@ import LandingClient from "@/components/landing/LandingClient";
 export const metadata: Metadata = {
   title: "POLANITAS",
   description:
-    "Platform interaktif untuk belajar analisis data, riset tren, dan strategi konten digital dengan praktik langsung menggunakan Multi-Agent AI & Eye Tracking.",
+    "POLANITAS: Platform edukasi dan AI Agent Data Analyst dengan 3 agen AI spesialis (Researcher, Strategist, dan Analyst) untuk riset tren dan strategi konten digital.",
 };
 
 export default function LandingPage() {

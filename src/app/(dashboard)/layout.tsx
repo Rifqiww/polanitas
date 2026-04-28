@@ -8,6 +8,7 @@ import { UserChip } from "@/components/layout/UserChip";
 import "../globals.css";
 
 import { BottomNav } from "@/components/layout/BottomNav";
+import { SpeechToAction } from "@/components/accessibility/SpeechToAction";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
@@ -41,6 +42,9 @@ export default function DashboardLayout({
 
       {/* Mobile Nav */}
       <BottomNav />
+
+      {/* Speech-to-Action (only active when user has isBlind: true) */}
+      <SpeechToAction />
     </div>
   );
 }

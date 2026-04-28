@@ -27,9 +27,9 @@ export default function RegisterForm() {
   // ── Password strength indicator ────────────────────────────
   function checkStrength(pwd: string) {
     let score = 0;
-    if (pwd.length >= 8)          score++;
-    if (/[A-Z]/.test(pwd))        score++;
-    if (/[0-9]/.test(pwd))        score++;
+    if (pwd.length >= 8) score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/[0-9]/.test(pwd)) score++;
     if (/[^A-Za-z0-9]/.test(pwd)) score++;
     setPasswordStrength(score);
   }
@@ -39,10 +39,10 @@ export default function RegisterForm() {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
-    const name     = fd.get("name")     as string;
-    const email    = fd.get("email")    as string;
+    const name = fd.get("name") as string;
+    const email = fd.get("email") as string;
     const password = fd.get("password") as string;
-    const confirm  = fd.get("confirm")  as string;
+    const confirm = fd.get("confirm") as string;
 
     if (password !== confirm) {
       setError("Password dan konfirmasi password tidak cocok.");
@@ -55,7 +55,7 @@ export default function RegisterForm() {
         await updateProfile(cred.user, { displayName: name });
         const result = await createSession(cred.user.uid);
         if (result?.error) throw new Error(result.error);
-        router.push("/dashboard");
+        router.push("/setup-profile");
         router.refresh();
       } catch (err: any) {
         setError(friendlyError(err.code ?? err.message));
@@ -71,7 +71,7 @@ export default function RegisterForm() {
       const cred = await signInWithPopup(auth, googleProvider);
       const result = await createSession(cred.user.uid);
       if (result?.error) throw new Error(result.error);
-      router.push("/dashboard");
+      router.push("/setup-profile");
       router.refresh();
     } catch (err: any) {
       if (err.code !== "auth/popup-closed-by-user") {
@@ -88,7 +88,7 @@ export default function RegisterForm() {
   const strengthLabels = ["", "Lemah", "Cukup", "Kuat", "Sangat Kuat"];
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -97,7 +97,7 @@ export default function RegisterForm() {
       <div className="bg-surface p-8 rounded-3xl border border-border shadow-md">
         {/* Header */}
         <div className="text-center mb-7">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -105,7 +105,7 @@ export default function RegisterForm() {
           >
             <ThemeLogo height={32} />
           </motion.div>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -113,7 +113,7 @@ export default function RegisterForm() {
           >
             Buat Akun Baru
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -132,7 +132,7 @@ export default function RegisterForm() {
         {/* Error */}
         <AnimatePresence mode="wait">
           {error && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0, marginBottom: 0 }}
               animate={{ opacity: 1, height: "auto", marginBottom: 20 }}
               exit={{ opacity: 0, height: 0, marginBottom: 0 }}
@@ -213,7 +213,7 @@ export default function RegisterForm() {
             {/* Password strength bar */}
             <AnimatePresence>
               {passwordStrength > 0 && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
@@ -316,7 +316,7 @@ export default function RegisterForm() {
       </div>
 
       {/* Benefits below card */}
-      <motion.div 
+      <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
@@ -331,8 +331,8 @@ export default function RegisterForm() {
           "Real-time eye tracking untuk analisis konten berbasis data",
           "Gratis untuk kreator individual",
         ].map((benefit) => (
-          <motion.div 
-            key={benefit} 
+          <motion.div
+            key={benefit}
             variants={{
               hidden: { opacity: 0, x: -10 },
               visible: { opacity: 1, x: 0 }
@@ -352,11 +352,11 @@ export default function RegisterForm() {
 
 function friendlyError(code: string): string {
   const map: Record<string, string> = {
-    "auth/email-already-in-use":   "Email sudah digunakan. Coba masuk atau gunakan email lain.",
-    "auth/weak-password":          "Password terlalu lemah. Gunakan minimal 6 karakter.",
-    "auth/invalid-email":          "Format email tidak valid.",
+    "auth/email-already-in-use": "Email sudah digunakan. Coba masuk atau gunakan email lain.",
+    "auth/weak-password": "Password terlalu lemah. Gunakan minimal 6 karakter.",
+    "auth/invalid-email": "Format email tidak valid.",
     "auth/network-request-failed": "Koneksi gagal. Periksa jaringan kamu.",
-    "auth/too-many-requests":      "Terlalu banyak percobaan. Coba beberapa menit lagi.",
+    "auth/too-many-requests": "Terlalu banyak percobaan. Coba beberapa menit lagi.",
   };
   return map[code] ?? `Terjadi kesalahan: ${code}`;
 }
