@@ -7,12 +7,41 @@ import {
 
 export const metadata: Metadata = { title: "Researcher Agent — POLANITAS" };
 
+// ── Brand Icons (SVG) ────────────────────────────────────────────────
+const YoutubeIcon = ({ size = 16, color }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color || "currentColor"} xmlns="http://www.w3.org/2000/svg">
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </svg>
+);
+
+const TiktokIcon = ({ size = 16, color }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color || "currentColor"} xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.525.02c1.31-.032 2.612-.02 3.914-.02.115 2.18.804 4.264 2.135 5.807 1.285 1.504 3.048 2.565 4.955 2.948V12.6c-1.283-.141-2.542-.51-3.693-1.09a9.404 9.404 0 0 1-3.151-2.354V18.2a6.64 6.64 0 0 1-5.64 6.54 6.66 6.66 0 0 1-7.23-4.52 6.66 6.66 0 0 1 1.94-7.44 6.66 6.66 0 0 1 7.15-1.04v4.06a2.64 2.64 0 0 0-2.88.54 2.64 2.64 0 0 0 1.25 4.39 2.64 2.64 0 0 0 3.09-2.59V.02Z"/>
+  </svg>
+);
+
+const InstagramIcon = ({ size = 16, color }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color || "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+  </svg>
+);
+
+const TokopediaIcon = ({ size = 16 }: { size?: number }) => (
+  <img src="/tokopedia.png" alt="Tokopedia" width={size} height={size} style={{ objectFit: "contain" }} />
+);
+
+const ShopeeIcon = ({ size = 16 }: { size?: number }) => (
+  <img src="/shopee.png" alt="Shopee" width={size} height={size} style={{ objectFit: "contain" }} />
+);
+
 const DATA_SOURCES = [
-  { platform: "YouTube", icon: PlayCircle, color: "#FF0000", desc: "Tren video populer berdasarkan region", tag: "YouTube Data API v3" },
-  { platform: "TikTok", icon: TrendingUp, color: "#010101", desc: "Hashtag viral dan volume penggunaan", tag: "Apify Scraper" },
-  { platform: "Instagram", icon: BarChart2, color: "#E1306C", desc: "Reels & hashtag berbasis topik", tag: "Apify Scraper" },
-  { platform: "Tokopedia", icon: ShoppingBag, color: "#00AA5B", desc: "Produk terlaris dan analisis harga", tag: "Lexis Solutions" },
-  { platform: "Shopee", icon: ShoppingBag, color: "#EE4D2D", desc: "Kompetitor produk & whitespace gap", tag: "Apify Scraper" },
+  { platform: "YouTube", icon: YoutubeIcon, color: "#FF0000", desc: "Tren video populer berdasarkan region", tag: "YouTube Data API v3" },
+  { platform: "TikTok", icon: TiktokIcon, color: "#010101", desc: "Hashtag viral dan volume penggunaan", tag: "Apify Scraper" },
+  { platform: "Instagram", icon: InstagramIcon, color: "#E1306C", desc: "Reels & hashtag berbasis topik", tag: "Apify Scraper" },
+  { platform: "Tokopedia", icon: TokopediaIcon, color: "#00AA5B", desc: "Produk terlaris dan analisis harga", tag: "Lexis Solutions" },
+  { platform: "Shopee", icon: ShopeeIcon, color: "#EE4D2D", desc: "Kompetitor produk & whitespace gap", tag: "Apify Scraper" },
 ];
 
 const PROCESS_STEPS = [

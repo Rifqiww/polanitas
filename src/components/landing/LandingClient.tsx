@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import { ThemeLogo } from "@/components/layout/ThemeLogo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+import { ParallaxBackground } from "@/components/layout/ParallaxBackground";
 
 // ── Animation variants ───────────────────────────────────────────
 import { Variants } from "framer-motion";
@@ -86,12 +87,8 @@ const FEATURES = [
 
 // ── Component ────────────────────────────────────────────────────
 export default function LandingClient() {
-  const { scrollYProgress } = useScroll();
-  const glowScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.4]);
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.6], [0.06, 0.02]);
-
   return (
-    <div className="min-h-dvh bg-bg flex flex-col font-sans overflow-x-hidden">
+    <div className="min-h-dvh bg-bg flex flex-col font-sans overflow-x-hidden relative z-0">
       {/* ── Navigation ─────────────────────────────────────────── */}
       <motion.nav
         initial="hidden"
@@ -116,7 +113,7 @@ export default function LandingClient() {
       </motion.nav>
 
       {/* ── Hero Section ───────────────────────────────────────── */}
-      <main className="flex-1 flex flex-col items-center pt-[140px] pb-20">
+      <main className="flex-1 flex flex-col items-center pt-[140px] pb-20 relative z-10">
         <motion.section
           initial="hidden"
           animate="visible"
@@ -165,20 +162,11 @@ export default function LandingClient() {
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href="/dashboard"
-                className="btn btn-primary btn-lg rounded-full px-8 h-[52px] text-base"
+                className="btn btn-primary btn-lg rounded-md px-8 h-[52px] text-base"
               >
                 Coba Eksplorasi
                 <Zap size={18} strokeWidth={2.5} />
               </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
-              <a
-                href="#features"
-                className="btn btn-ghost btn-lg rounded-full px-8 h-[52px] text-base border border-border"
-              >
-                Lebih Lanjut
-                <ChevronRight size={18} strokeWidth={2} />
-              </a>
             </motion.div>
           </motion.div>
         </motion.section>
@@ -229,32 +217,40 @@ export default function LandingClient() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          className="mt-[100px] w-full max-w-[800px] text-center py-[60px] px-6 relative"
+          className="mt-[60px] md:mt-[100px] w-full max-w-[850px] text-center py-[80px] px-6 relative z-10"
         >
+          {/* Glowing subtle background */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-accent-subtle)_0%,transparent_50%)] opacity-50 blur-[50px] -z-10 pointer-events-none" />
+          
           {/* Animated top/bottom borders */}
           <motion.div
             variants={widthExpand}
-            className="absolute top-0 left-0 right-0 h-px bg-border origin-left"
+            className="absolute top-0 left-0 right-0 h-px bg-[linear-gradient(to_right,transparent,var(--color-border),transparent)]"
           />
           <motion.div
             variants={widthExpand}
-            className="absolute bottom-0 left-0 right-0 h-px bg-border origin-right"
+            className="absolute bottom-0 left-0 right-0 h-px bg-[linear-gradient(to_right,transparent,var(--color-border),transparent)]"
           />
 
           <motion.div variants={fadeUp} custom={0}>
-            <TrendingUp size={32} className="text-accent-text mx-auto mb-5" />
+            <div className="w-20 h-20 mx-auto mb-8 rounded-[24px] bg-surface backdrop-blur-md border border-[var(--color-border)] shadow-[0_20px_40px_-15px_var(--color-accent-glow)] flex items-center justify-center text-[var(--color-accent-text)] relative overflow-hidden group">
+               <div className="absolute inset-0 bg-[var(--color-accent-glow)] opacity-[0.15] group-hover:opacity-[0.25] transition-opacity duration-500" />
+               <TrendingUp size={36} strokeWidth={2} className="relative z-10 transition-transform duration-500 group-hover:scale-110" />
+            </div>
           </motion.div>
+          
           <motion.h2
             variants={fadeUp}
             custom={1}
-            className="text-[2rem] tracking-[-0.02em] text-primary mb-4"
+            className="text-[clamp(2rem,4vw,2.5rem)] font-bold tracking-tight text-primary mb-5"
           >
             Paradigma Baru Analitik Konten
           </motion.h2>
+          
           <motion.p
             variants={fadeUp}
             custom={2}
-            className="text-secondary text-[1.0625rem] leading-[1.7]"
+            className="text-secondary text-[1.125rem] leading-[1.75] max-w-[700px] mx-auto opacity-90"
           >
             Desain elegan bukanlah sekadar estetika, melainkan kejernihan dalam membaca data.
             POLANITAS mengubah kerumitan algoritma menjadi antarmuka yang bersih, intuitif, dan semi-modern.
@@ -281,11 +277,8 @@ export default function LandingClient() {
         </div>
       </motion.footer>
 
-      {/* ── Parallax background glow ───────────────────────────── */}
-      <motion.div
-        style={{ scale: glowScale, opacity: glowOpacity }}
-        className="fixed top-[10%] left-1/2 -translate-x-1/2 w-[60vw] h-[60vh] bg-[radial-gradient(ellipse_at_center,var(--color-accent-text)_0%,transparent_60%)] -z-10 pointer-events-none blur-[80px]"
-      />
+      {/* ── Background ────────────────────────────────────────── */}
+      <ParallaxBackground />
     </div>
   );
 }
