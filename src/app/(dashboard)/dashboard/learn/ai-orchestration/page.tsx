@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 import {
   Brain,
   ArrowLeft,
@@ -255,9 +256,7 @@ function AILab({ lessonId }: { lessonId: string }) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "ai",
-      content: `Halo! Aku **AI Tutor POLANITAS** untuk modul ini, bertenaga Llama 3.3 70B. 
-      
-Tanyakan apa saja tentang **AI Orchestration Leadership** — konsep, studi kasus, atau minta review atas jawaban challenge kamu! 💡`,
+      content: "Halo! Aku AI Tutor POLANITAS untuk modul ini, bertenaga Llama 3.3 70B. Tanyakan apa saja tentang AI Orchestration Leadership — konsep, studi kasus, atau minta review atas jawaban challenge kamu!",
       timestamp: new Date(),
     },
   ]);
