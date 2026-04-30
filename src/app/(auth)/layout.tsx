@@ -10,14 +10,9 @@ export const metadata: Metadata = {
     template: "%s | POLANITAS",
   },
 };
-
-import { ParallaxBackground } from "@/components/layout/ParallaxBackground";
-
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh bg-bg flex flex-col relative overflow-hidden selection:bg-accent-glow selection:text-accent-text">
-      <ParallaxBackground />
-      
       {/* Minimal top bar */}
       <header className="flex items-center justify-between px-6 md:px-12 py-5 border-b border-white/[0.05] bg-surface/60 backdrop-blur-xl relative z-20">
         <Link href="/" className="flex items-center transition-transform hover:scale-105 active:scale-95">
